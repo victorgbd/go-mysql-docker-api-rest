@@ -1,0 +1,53 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: "test_db"
+
+    build:
+      context: .
+      dockerfile: db.dockerfile
+    networks:
+      - default
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "1160119"
+      MYSQL_DATABASE: "test"
+      MYSQL_USER: "jheyson"
+      MYSQL_PASSWORD: "1160119"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:5.1.1
+    restart: 'always'
+    ports:
+      - '8087:80'
+    environment:
+      - PMA_HOST=db
+      - PMA_PASSWORD:1160119
+    depends_on:
+      - db
+    links:
+      - db
+  api:
+    container_name: "test_api"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "6001:6001"
+    depends_on:
+      - db
+    volumes:
+      - .:/app/
+
+networks:
+  default:
+volumes:
+  mysql_data:
