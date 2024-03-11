@@ -41,7 +41,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "6001:6001"
+      - "6001:8080"
     depends_on:
       - db
     volumes:
