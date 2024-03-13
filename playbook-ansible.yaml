@@ -14,6 +14,7 @@
       git:
         repo: https://github.com/victorgbd/go-mysql-docker-api-rest.git
         dest: "{{ ansible_env.HOME }}/ansible/playbooks"
+        force: yes
         update: yes  # Esta opción actualizará el repositorio si ya está clonado
 
     - name: Detener servicios existentes (si es necesario)
