@@ -5,10 +5,10 @@
 
   tasks:
     - name: Crear directorio para playbooks si no existe
-        file:
-          path: "{{ ansible_env.HOME }}/ansible/playbooks"
-          state: directory
-          mode: '0755'  # Permisos para el directorio
+      file:
+        path: "{{ ansible_env.HOME }}/ansible/playbooks"
+        state: directory
+        mode: '0755'  # Permisos para el directorio
 
     - name: Clonar repositorio con la aplicación o actualizar si ya está clonado
       git:
