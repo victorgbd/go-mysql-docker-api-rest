@@ -1,0 +1,32 @@
+---
+- name: Desplegar aplicación Docker
+  hosts: inventario
+  become: yes
+
+  tasks:
+    - name: Crear directorio para playbooks si no existe
+        file:
+          path: "{{ ansible_env.HOME }}/ansible/playbooks"
+          state: directory
+          mode: '0755'  # Permisos para el directorio
+
+    - name: Clonar repositorio con la aplicación o actualizar si ya está clonado
+      git:
+        repo: https://github.com/victorgbd/go-mysql-docker-api-rest.git
+        dest: "{{ ansible_env.HOME }}/ansible/playbooks"
+        update: yes  # Esta opción actualizará el repositorio si ya está clonado
+
+    - name: Detener servicios existentes (si es necesario)
+      command: docker-compose down
+      args:
+        chdir: "{{ ansible_env.HOME }}/ansible/playbooks"
+    
+    - name: Compilar archivos Docker
+      command: docker-compose build
+      args:
+        chdir: "{{ ansible_env.HOME }}/ansible/playbooks"
+
+    - name: Iniciar servicios Docker
+      command: docker-compose up -d
+      args:
+        chdir: "{{ ansible_env.HOME }}/ansible/playbooks"
