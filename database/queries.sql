@@ -19,7 +19,7 @@ INSERT INTO
     )
     VALUES (
       'Fernando',
-      'Fernán',
-      'González',
+      'Lapara',
+      'Gonzalez',
       23
     );
